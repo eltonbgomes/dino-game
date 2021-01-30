@@ -16,7 +16,7 @@ function handleKeyDown(event){ //funcao para funcionar apenas com o espaco press
 function jump(){ //funcao que fará o dino pular
     isJumping = true;
 
-    let upInterval = setInterval(() => { //atualiza a cada 20 ms
+    let upInterval = setInterval(() => { //atualiza a cada 30 ms
         if(DinoPosition >= 150){
             clearInterval(upInterval);
             //descendo
@@ -28,18 +28,18 @@ function jump(){ //funcao que fará o dino pular
                     DinoPosition -= 20;
                     dino.style.bottom = DinoPosition + 'px';
                 }
-            }, 20); //atualiza a cada 20 ms
+            }, 30); //atualiza a cada 20 ms
         }else{
             //subindo
             DinoPosition += 20;
             dino.style.bottom = DinoPosition + 'px';
         }
-    }, 20);
+    }, 30);
 }
 
 function createCactus(){
     const cactus = document.createElement('div'); //gerar html para insercao na pagina index
-    let cactusPosition = 1000;
+    let cactusPosition = 1300;
     let randomTime = 0;
     do{
         randomTime = Math.random() * 3000;
@@ -48,7 +48,7 @@ function createCactus(){
     console.log(randomTime);
 
     cactus.classList.add('cactus'); //adiciona uma classe para 'cactus' para poder modificar com css
-    cactus.style.left = 1000 + 'px';
+    cactus.style.left = cactusPosition + 'px';
     background.appendChild(cactus); //adiciona o cactus no background
 
     //movimentando o cactus
@@ -60,7 +60,6 @@ function createCactus(){
             //game over
             clearInterval(leftInterval);
             document.body.innerHTML = '<h1 class="game-over">Fim de Jogo</h1>';
-            console.log("hei");
         }else{
             cactusPosition -=10;
             cactus.style.left = cactusPosition + 'px';

@@ -1,6 +1,7 @@
 const dino = document.querySelector('.dino');
 const background = document.querySelector('.background');
 //console.log(dino);
+let DinoPosition = 0;
 let isJumping = false;
 
 function handleKeyDown(event){ //funcao para funcionar apenas com o espaco pressionado
@@ -13,26 +14,25 @@ function handleKeyDown(event){ //funcao para funcionar apenas com o espaco press
 }
 
 function jump(){ //funcao que fará o dino pular
-    let position = 0;
     isJumping = true;
 
     let upInterval = setInterval(() => { //atualiza a cada 20 ms
-        if(position >= 150){
+        if(DinoPosition >= 150){
             clearInterval(upInterval);
             //descendo
             let downInterval = setInterval(() => {
-                if(position <= 0){
+                if(DinoPosition <= 0){
                     clearInterval(downInterval);
                     isJumping = false;
                 }else{
-                    position -= 20;
-                    dino.style.bottom = position + 'px';
+                    DinoPosition -= 20;
+                    dino.style.bottom = DinoPosition + 'px';
                 }
             }, 20); //atualiza a cada 20 ms
         }else{
             //subindo
-            position += 20;
-            dino.style.bottom = position + 'px';
+            DinoPosition += 20;
+            dino.style.bottom = DinoPosition + 'px';
         }
     }, 20);
 }
@@ -40,7 +40,10 @@ function jump(){ //funcao que fará o dino pular
 function createCactus(){
     const cactus = document.createElement('div'); //gerar html para insercao na pagina index
     let cactusPosition = 1000;
-    let randomTime = Math.random() * 4500;
+    let randomTime = 0;
+    do{
+        randomTime = Math.random() * 3000;
+    }while(randomTime < 600); //impede que os cactus fiquem muito proximos
 
     console.log(randomTime);
 
@@ -50,9 +53,14 @@ function createCactus(){
 
     //movimentando o cactus
     let leftInterval = setInterval(() => {
-        if(cactusPosition < -70){
+        if(cactusPosition < -60){
             clearInterval(leftInterval);
             background.removeChild(cactus);
+        }else if (cactusPosition > 0 && cactusPosition < 60 && DinoPosition < 60){
+            //game over
+            clearInterval(leftInterval);
+            document.body.innerHTML = '<h1 class="game-over">Fim de Jogo</h1>';
+            console.log("hei");
         }else{
             cactusPosition -=10;
             cactus.style.left = cactusPosition + 'px';
